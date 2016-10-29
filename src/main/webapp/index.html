@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Start page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+    <script>
+        var socket = new SockJS("/addNum");
+        var stomp_client = Stomp.over(socket);
+        stomp_client.connect({}, function (myresult) {
+            stomp_client.subscribe("/topic/results", function (calcresult) {
+                var message = JSON.stringify(calcresult.body).result;
+                document.getElementById("output").innerHTML = message;
+            });
+        });
+
+        function calculate() {
+            var num1 = document.getElementById("num1").value;
+            var num2 = document.getElementById("num2").value;
+            stomp_client.send("/calc/addNum", {}, JSON.stringify({"num1": num1, "num2": num2}));
+        }
+    </script>
+</head>
+<body>
+
+<form>
+    <input type="text" id="num1"/>
+    <input type="text" id="num2"/>
+    <input type="button" onclick="calculate()" value="calculate"/>
+    <div id="output"></div>
+</form>
+
+</body>
+</html>
