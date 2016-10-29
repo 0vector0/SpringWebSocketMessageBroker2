@@ -14,6 +14,7 @@ public class WebSocketMessageBrokerConfig extends AbstractWebSocketMessageBroker
     @Override
     public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
         stompEndpointRegistry.addEndpoint("/connected");
+        System.out.println("connectd");
     }
 
 
