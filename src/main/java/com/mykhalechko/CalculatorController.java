@@ -2,6 +2,7 @@ package com.mykhalechko;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.io.IOException;
 public class CalculatorController {
 
     @MessageMapping("/addNum")
+    @SendTo("/topic/addNum")
     public String addNumbers(String input) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         CalculatorInput data = mapper.readValue(input, CalculatorInput.class);
